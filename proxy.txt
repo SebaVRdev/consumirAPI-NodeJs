@@ -1,0 +1,22 @@
+function createAPI(url, acceptedResources) {
+  return new Proxy({},{
+    get: (target, prop) => {
+      return async (id) => {
+        if (!acceptedResources.includes(prop)) {
+          return Promise.reject({error: "No se envio una propiedad valida"})
+        }
+        const resourse = `${url}/${prop}/${id}`;
+        const res = await axios({url: resourse});
+        return res.json();
+      }
+    }
+  })
+}
+
+const POKE_API_URL = 'https://pokeapi.co/api/v2';
+const POKE_API_ACCEPTED_RESOURCES = ['pokemon, type', 'ability'];
+
+//Ejemplo PROXY
+const pokeApi = createAPI(POKE_API_URL, POKE_API_ACCEPTED_RESOURCES);
+const pikachu = pokeApi.get.pokemon('pikachu');
+console.log(pikachu)

@@ -6,18 +6,22 @@ const {
   inquirerMenu,
   pausa,
   leerInput,
-  confirm
+  confirm,
+  listadoEventSearch
 } = require("./helpers/inquirer");
 
 const Events = require("./models/events");
 
 const main = async () => {
+  /* const datostest = await test1();
+  console.log(datostest); */
 
   //Inicia la app Haciendo la peticion y trayendo los eventos
   llamadaAxios().then(async () => {
     console.log("Guardado con exito");
     console.log(arrayPokemon);
-  });
+
+  }); 
 
   //Una vez termina la peticion y se guardan los datos en un array local (arrayPokemon) al pasar 5seg inicia el menu con sus datos iniciales
   setTimeout(async () => {
@@ -57,11 +61,21 @@ const main = async () => {
           events.listarEventos()
           break;
         case "2":
-            //MOSTRAR EVENTOS   
-          events.listarEventos()
+            //MOSTRAR EVENTOS 404  
+          const id = await leerInput("Cual desea buscar?")   
+          const eventForId = await events.mostrarPorId(id);
+          console.log(eventForId);
           break;
         case "3":
-
+            //MOSTRAR EVENTOS 301
+            const search = await listadoEventSearch(events.listadoArr);
+            if (search !== '0') {
+              const searchEventForID = await events.mostrarPorId(search);
+              console.log(searchEventForID);
+            }
+            else{
+              console.log("Se cancelo la busqueda");
+            }
           break;
         case "4":
 
@@ -110,3 +124,16 @@ async function llamadaAxios() {
       console.log(error);
     });
 }
+
+
+/* async function test1 (){
+  let data = []
+  console.log("Entrando a un test con axios");
+    const resolve = await axios(config)
+    .then(res => {
+      data = res.data.results
+    })
+    //const res = resolve.json()
+
+    return data;
+} */
