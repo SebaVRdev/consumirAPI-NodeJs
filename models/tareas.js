@@ -1,4 +1,3 @@
-const { v4: uuidv4 } = require('uuid')
 require('colors');
 
 const Tarea = require('./tarea.js')

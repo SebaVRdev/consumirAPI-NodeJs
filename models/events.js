@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid')
+const axios = require("axios");
 require('colors');
 
 const Event = require('./event.js')
@@ -52,6 +52,28 @@ class Events {
             console.log(`${String(num).green}. Informacion ${'::'.yellow} ${name} ${'=>'.yellow} ${url}`)
         })
     };
+
+
+    async mostrarPorId(id){
+        const config = {
+            method: "get",
+            url: `https://pokeapi.co/api/v2/pokemon/${id}`,
+          };
+        let event = null;
+        console.log(`Entrando a busqueda con Id: ${id}`);
+        await axios(config)
+        .then(res => {
+            if (res.status !== 200) {
+                event = new Event()
+            }
+            else{
+                const { name, height } = res.data;
+                event = new Event(name, {name, height})
+            }
+        })
+        
+        return event;
+    }
 }
 
 module.exports = Events

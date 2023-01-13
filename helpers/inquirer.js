@@ -13,15 +13,15 @@ const preguntas = [
         choices: [
             {
                 value: '1',
-                name:`${'1'.green}. Mostrar Todos los eventos`            
+                name:`${'1'.green}. Mostrar Todos los pokemons`            
             },
             {
                 value: '2',
-                name: `${'2'.green}. Ver eventos 404`
+                name: `${'2'.green}. Buscar por nombre`
             },
             {
                 value: '3',
-                name: `${'3'.green}. Ver eventos 301`
+                name: `${'3'.green}. Buscar los de la lista:`
             },
             {
                 value: '4',
@@ -88,18 +88,13 @@ const leerInput = async ( message ) => {
     return desc;
 }
 
-const listadoTareasBorrar =  async (tareas = []) => {
-    /* {
-        value: tareas.id,
-        name:`${'1'.green}. Crear Tarea`            
-    } */
+const listadoEventSearch =  async (events = []) => {
     //Map genera un nuevo arrglo pero transormando los hijos
-    const choices = tareas.map( (tarea, index) => {
-
+    const choices = events.map( (event, index) => {
         const id = `${index + 1}`.green
         return {
-            value: tarea.id,
-            name: `${id} ${tarea.description} `
+            value: event.name,
+            name: `${id} ${event.name} `
         }
     })
 
@@ -113,14 +108,13 @@ const listadoTareasBorrar =  async (tareas = []) => {
         {
             type: 'list',
             name: 'id',
-            message: 'Borrar',
+            message: 'Cual desea Buscar?',
             choices
         }
     ]
 
     //Generamos menu y guardamos la opcion
     const {id} = await inquirer.prompt(preguntas);
-
     return id;
 }
 
@@ -175,7 +169,7 @@ module.exports = {
     inquirerMenu,
     pausa,
     leerInput,
-    listadoTareasBorrar,
+    listadoEventSearch,
     confirm,
     mostrarListadoCheckList
 }
